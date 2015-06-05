@@ -10,7 +10,7 @@ class Solutions_Ad_Manager_Random_From_Group_Widget extends WP_Widget {
 	 */
 	function __construct() {
 		$this->solutions_ad_manager = 'solutions-ad-manager';
-		$this->version = '0.6.3';
+		$this->version = '0.6.4';
 		parent::__construct(
 			'sam_random_from_group_widget', // Base ID
 			__( 'Ad (random from group)', 'solutions-ad-manager' ), // Name
@@ -57,6 +57,7 @@ class Solutions_Ad_Manager_Random_From_Group_Widget extends WP_Widget {
 			'post_type' => array('solutions-ad-manager'),
 			$term->taxonomy => $group,
 			'orderby' => 'rand',
+			'nopaging' => 'true', //shows all adds in stead of 10 per query
 		);
 		
 		if( empty($sam_ad_array[$group]) || !$sam_ad_array[$group]->have_posts() ){
@@ -70,7 +71,6 @@ class Solutions_Ad_Manager_Random_From_Group_Widget extends WP_Widget {
 		}else{
 			$stretchImage = $options['solutions-ad-manager-stretch-image'];
 		}
-	
 		
 		if ( $sam_ad_array[$group]->have_posts() ) {
 			$sam_ad_array[$group]->the_post();
@@ -109,14 +109,12 @@ class Solutions_Ad_Manager_Random_From_Group_Widget extends WP_Widget {
 			
 			echo '</div>';
 			echo $args['after_widget'];
-			
 		} else {
 			echo $args['before_widget'];
 			echo '<div class="solutions-ad-manager-widget">';
 			echo __( 'No Ad Found', 'solutions-ad-manager' );
 			echo '</div>';
 			echo $args['after_widget'];
-			
 		}
 		
 		

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CZEPP
 Tags: ads, widgets, shortcodes
 Requires at least: 3.0.1
 Tested up to: 4.2.2
-Stable tag: 0.6.3
+Stable tag: 0.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,9 @@ https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CZEPP9YUEPMW2&lc=U
 
 == Changelog ==
 
+= 0.6.4 =
+* Bugfix on Ad Query
+
 = 0.6 =
 * Prep for Release
 
@@ -97,6 +100,9 @@ https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CZEPP9YUEPMW2&lc=U
 * Beta Release.
 
 == Upgrade Notice ==
+
+= 0.6.4 =
+0.6.4 fixes some issues with the Ad Query making for a smarter ad picking system.
 
 = 0.6 =
 0.6 is the first public release and submission for wordpress repo, nothing fancy here but might as well update.
