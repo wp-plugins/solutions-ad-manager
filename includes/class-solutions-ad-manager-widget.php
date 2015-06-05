@@ -10,7 +10,7 @@ class Solutions_Ad_Manager_Random_From_Group_Widget extends WP_Widget {
 	 */
 	function __construct() {
 		$this->solutions_ad_manager = 'solutions-ad-manager';
-		$this->version = '0.6.2';
+		$this->version = '0.6.3';
 		parent::__construct(
 			'sam_random_from_group_widget', // Base ID
 			__( 'Ad (random from group)', 'solutions-ad-manager' ), // Name

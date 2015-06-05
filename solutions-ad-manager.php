@@ -17,7 +17,7 @@
  * Plugin Name:       Solutions Ad Manager
  * Plugin URI:        http://solutionsbysteve.com/products/solutions-ad-manager/
  * Description:       This allows you to display ads in your website as widgets and custom shortcodes.
- * Version:           0.6.2
+ * Version:           0.6.3
  * Author:            Solutions by Steve
  * Author URI:        http://solutionsbysteve.com/
  * License:           GPL-2.0+
