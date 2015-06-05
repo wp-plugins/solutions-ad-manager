@@ -79,7 +79,7 @@ class Solutions_Ad_Manager {
 	public function __construct() {
 
 		$this->solutions_ad_manager = 'solutions-ad-manager';
-		$this->version = '0.6.0';
+		$this->version = '0.6.2';
 		$this->basename = 'solutions-ad-manager/solutions-ad-manager.php';
 
 		$this->load_dependencies();
