@@ -1,0 +1,11 @@
+.solutions-ad-manager-widget { clear: both; padding: 0px; margin: 1% 0 1% 0%; zoom:1; }
+.solutions-ad-manager-widget:before { content:""; display:table; }
+.solutions-ad-manager-widget:after { content:""; display:table; clear:both; }
+.solutions-ad-manager-widget .title { }
+.solutions-ad-manager-widget .image { text-align:center; }
+.solutions-ad-manager-widget .image img { }
+.solutions-ad-manager-widget .image img.stretch { width:100%; height:auto; }
+.solutions-ad-manager-widget .media { }
+.solutions-ad-manager-widget .media iframe { width:100%; }
+.solutions-ad-manager-widget .media iframe.youtube-media { height:auto; }
+.solutions-ad-manager-widget .media iframe.instagram-media { }
