@@ -203,6 +203,7 @@ class Solutions_Ad_Manager {
 		//$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		//Widgets
 		$this->loader->add_action( 'widgets_init', $this, 'register_solutions_ad_manager_widget' );
+		$this->loader->add_action( 'init', $plugin_public, 'register_solutions_ad_manager_shortcode' );
 	}
 
 	/**

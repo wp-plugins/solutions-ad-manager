@@ -72,6 +72,9 @@ https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CZEPP9YUEPMW2&lc=U
 
 == Changelog ==
 
+= 0.7.0 =
+* Add Shortcode support
+
 = 0.6.4 =
 * Bugfix on Ad Query
 
@@ -100,6 +103,9 @@ https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CZEPP9YUEPMW2&lc=U
 * Beta Release.
 
 == Upgrade Notice ==
+
+= 0.7.0 =
+0.7.0 Add support for shortcodes.
 
 = 0.6.4 =
 0.6.4 fixes some issues with the Ad Query making for a smarter ad picking system.

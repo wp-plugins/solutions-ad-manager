@@ -150,5 +150,146 @@ class Solutions_Ad_Manager_Public {
 		return $code;
 	}
 	
+		/**
+	 * Register Shortcodes.
+	 *
+	 * @since    0.7.0
+	 */
+	 public function register_solutions_ad_manager_shortcode() {
+		 add_shortcode( 'sam-display-ad', array( $this, 'sam_display_ad_shortcode') );
+	 }
+	 // [sam-display-ad group='' specific='' show_title='']
+	 public function sam_display_ad_shortcode( $atts ){
+
+		// Attributes
+		extract( shortcode_atts(
+			array(
+				'group' => NULL,
+				'specific' => NULL,
+				'show_title' => NULL,
+			), $atts )
+		);
+		
+		$options = get_option( 'solutions-ad-manager-options' );
+		if(!isset( $options['solutions-ad-manager-stretch-image'] )){ 
+			$stretchImage = false;
+		}else{
+			$stretchImage = $options['solutions-ad-manager-stretch-image'];
+		}
+		
+		//Create Output
+		$output  = '';
+		
+		//GROUPS
+		if( !is_null($group) && !empty($group)  ){
+			
+			global $sam_ad_array;
+			$term = get_term_by( 'slug', $group, 'solutions-ad-group' );
+			$group = $term->slug;
+			$query_args = array( 
+				'post_type' => array('solutions-ad-manager'),
+				$term->taxonomy => $group,
+				'orderby' => 'rand',
+				'nopaging' => 'true', //shows all adds in stead of 10 per query
+			);
+			if( empty($sam_ad_array[$group]) || !$sam_ad_array[$group]->have_posts() ){
+				// Create new query
+				$sam_ad_array[$group] = new WP_Query( $query_args );
+			}
+			if ( $sam_ad_array[$group]->have_posts() ) {
+				$sam_ad_array[$group]->the_post();
+				
+				$output .= '<div class="solutions-ad-manager-shortcode" id="samid-'.$sam_ad_array[$group]->post->ID.'">';
+				
+				$siteURL = home_url();
+				$meta = array();
+				$meta['URL'] = get_post_meta( $sam_ad_array[$group]->post->ID, 'solutions_ad_url', true );
+				$meta['title'] = get_the_title();
+				$meta['media'] = esc_html(get_post_meta( $sam_ad_array[$group]->post->ID, 'solutions_ad_oembed', true ));
+				if ( !is_null($show_title) && !empty($meta['title']) ) {
+					$output .= '<h2 class="shortcode-title">';
+					if(!empty($meta['URL'])){$output .= '<a href="' . $meta['URL'] . '">';}
+					$output .= $meta['title'];
+					if(!empty($meta['URL'])){$output .= '</a>';}
+					$output .= '</h2>';
+				}
+				if ( !empty($meta['media']) ){
+					$output .= '<div class="media">';
+					$output .= $this->sam_oembed($meta['media']);
+					$output .= '</div>';
+				}else{
+					$output .= '<div class="image">';
+					if(!empty($meta['URL'])){$output .= '<a href="' . esc_url($siteURL) . '?sam-redirect-to=' . esc_url( $meta['URL'] ) . '&sam-post-id=' . $sam_ad_array[$group]->post->ID . '" rel="nofollow">';}
+					$output .= get_the_post_thumbnail( $sam_ad_array[$group]->post->ID,  'full' );
+					if(!empty($meta['URL'])){$output .= '</a>';}
+					$output .= '</div>';
+				}
+				
+				$output .= '</div>';
+			} else {
+				$output .= '<div class="solutions-ad-manager-shortcode">';
+				$output .= __( 'No Ad Found', 'solutions-ad-manager' );
+				$output .= '</div>';
+			}
+
+		
+		//SPECIFIC
+		}elseif( !is_null($specific) && !empty($specific)  ){
+			
+			
+			$query_args = array( 
+				'post_type' => array('solutions-ad-manager'),
+				'p' => $specific,
+			);
+			
+			$specificAd = new WP_Query( $query_args );
+			
+		
+			$output .= '<div class="solutions-ad-manager-shortcode" id="samid-'.$sam_ad_array[$group]->post->ID.'">';
+			
+			if ( $specificAd->have_posts() ) {
+				$specificAd->the_post();
+				
+				$siteURL = home_url();
+				$meta = array();
+				$meta['URL'] = get_post_meta( $specificAd->post->ID, 'solutions_ad_url', true );
+				$meta['title'] = get_the_title();
+				$meta['media'] = esc_html(get_post_meta( $specificAd->post->ID, 'solutions_ad_oembed', true ));
+				if ( !is_null($show_title) && !empty($meta['title']) ) {
+					$output .= '<h2 class="shortcode-title">';
+					if(!empty($meta['URL'])){$output .= '<a href="' . $meta['URL'] . '">';}
+					$output .= $meta['title'];
+					if(!empty($meta['URL'])){$output .= '</a>';}
+					$output .= '</h2>';
+				}
+				if ( !empty($meta['media']) ){
+					$output .= '<div class="media">';
+					$output .= $this->sam_oembed($meta['media']);
+					$output .= '</div>';
+				}else{
+					$output .= '<div class="image">';
+					if(!empty($meta['URL'])){$output .= '<a href="' . esc_url($siteURL) . '?sam-redirect-to=' . esc_url( $meta['URL'] ) . '&sam-post-id=' . $specificAd->post->ID . '" rel="nofollow">';}
+					$output .= get_the_post_thumbnail( $specificAd->post->ID,  'full' );
+					if(!empty($meta['URL'])){$output .= '</a>';}
+					$output .= '</div>';
+				}
+				
+			} else {
+				$output .= '<div class="solutions-ad-manager-shortcode">';
+				$output .= __( 'No Ad Found', 'solutions-ad-manager' );
+				$output .= '</div>';
+			}
+			
+			$output .= '</div>';
+		
+		
+		}
+		
+		
+		
+		return $output;
+	 }
+
+
 
 }
