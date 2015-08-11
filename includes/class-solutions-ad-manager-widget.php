@@ -10,7 +10,7 @@ class Solutions_Ad_Manager_Random_From_Group_Widget extends WP_Widget {
 	 */
 	function __construct() {
 		$this->solutions_ad_manager = 'solutions-ad-manager';
-		$this->version = '0.6.4';
+		$this->version = '0.8.0';
 		parent::__construct(
 			'sam_random_from_group_widget', // Base ID
 			__( 'Ad (random from group)', 'solutions-ad-manager' ), // Name
@@ -58,6 +58,15 @@ class Solutions_Ad_Manager_Random_From_Group_Widget extends WP_Widget {
 			$term->taxonomy => $group,
 			'orderby' => 'rand',
 			'nopaging' => 'true', //shows all adds in stead of 10 per query
+			'meta_query' => array(
+				array(
+					'key'     => 'solutions_ad_end_date',
+					'value'   => time(),
+					'compare' => '>',
+				),
+			),
+			
+			
 		);
 		
 		if( empty($sam_ad_array[$group]) || !$sam_ad_array[$group]->have_posts() ){

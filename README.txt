@@ -3,8 +3,8 @@ Contributors: solutionsbysteve
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CZEPP9YUEPMW2&lc=US&item_name=Solutions%20By%20Steve&item_number=SoultionsAdManager&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: ads, widgets, shortcodes
 Requires at least: 3.0.1
-Tested up to: 4.2.2
-Stable tag: 0.7.0
+Tested up to: 4.2.4
+Stable tag: 0.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,6 +72,11 @@ https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CZEPP9YUEPMW2&lc=U
 
 == Changelog ==
 
+= 0.8.0 =
+* Ads can now expire after a set time
+* Add support for existing post updates
+* Cron jobs for background updates to ads
+
 = 0.7.0 =
 * Add Shortcode support
 
@@ -103,6 +108,9 @@ https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=CZEPP9YUEPMW2&lc=U
 * Beta Release.
 
 == Upgrade Notice ==
+
+= 0.8.0 =
+0.8.0 Allows you to schedule ads to expire after a set time. This update will update your existing ads by adding an end date to each.
 
 = 0.7.0 =
 0.7.0 Add support for shortcodes.

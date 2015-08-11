@@ -79,7 +79,7 @@ class Solutions_Ad_Manager {
 	public function __construct() {
 
 		$this->solutions_ad_manager = 'solutions-ad-manager';
-		$this->version = '0.6.4';
+		$this->version = '0.8.0';
 		$this->basename = 'solutions-ad-manager/solutions-ad-manager.php';
 
 		$this->load_dependencies();
@@ -149,6 +149,11 @@ class Solutions_Ad_Manager {
 		$plugin_i18n->set_domain( $this->get_solutions_ad_manager() );
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+		
+		$this->loader->add_action( 'init', $this, 'update_plugin_database' );
+		//Setup Update Schedule
+		$this->loader->add_action( 'init', $this, 'solutions_setup_schedule' );
+		$this->loader->add_action( 'solutions_scheduled_update', $this, 'solutions_scheduled_update' );
 
 	}
 
@@ -354,6 +359,83 @@ class Solutions_Ad_Manager {
 	 */
 	public function custom_theme_setup() {
 		add_theme_support( 'post-thumbnails', array( 'solutions-ad-manager' ) );
+	}
+
+	/**
+	 * Create database version update to manage posts for each plugin update.
+	 *
+	 * @since     0.8.0
+	 */
+	public function update_plugin_database(){
+		
+		$database_version = get_option( 'solutions_ad_database_version' );
+		
+		//Add option for database version
+		if( !$database_version ){
+			add_option( 'solutions_ad_database_version', '0.0.0' );
+			//update database version for next check
+			$database_version = get_option( 'solutions_ad_database_version' );
+		}
+		
+		//0.8.0 - Fix for missing default end date on existing ads
+		if( $database_version < '0.8.0' ){
+			
+			$query_args = array( 
+				'post_type' => array('solutions-ad-manager'),
+				'post_status' => 'any',
+				'nopaging' => 'true', //shows all adds in stead of 10 per query
+			);
+			$the_query = new WP_Query( $query_args );
+			while ( $the_query->have_posts() ) : $the_query->the_post();
+				$endDate = get_post_meta( $the_query->post->ID, 'solutions_ad_end_date', true );
+				if( !$endDate || empty($endDate) || is_null($endDate) ){
+					update_post_meta( $the_query->post->ID, 'solutions_ad_end_date', date( "U", strtotime('+1 year')) );
+				}
+			endwhile;
+			
+			update_option( 'solutions_ad_database_version', '0.8.0' );
+			//update database version for next check
+			//$database_version = get_option( 'solutions_ad_database_version' );
+		}
+		
+	}
+	
+	/**
+	 * Setup Scheduled Updates.
+	 *
+	 * @since     0.8.0
+	 */
+	public function solutions_setup_schedule() {
+		//makes sure cron is scheduled incase plugin was not deactivated and reactivated
+		if ( ! wp_next_scheduled( 'solutions_scheduled_update' ) ) {
+			wp_schedule_event( time(), 'hourly', 'solutions_scheduled_update');
+		}
+	}
+	
+	public function solutions_scheduled_update(){
+		$query_args = array( 
+			'post_type' => array('solutions-ad-manager'),
+			'post_status' => 'any',
+			'nopaging' => 'true', //shows all adds in stead of 10 per query
+		);
+		$the_query = new WP_Query( $query_args );
+		while ( $the_query->have_posts() ) : $the_query->the_post();
+		
+			$endDate = get_post_meta( $the_query->post->ID, 'solutions_ad_end_date', true );
+			if( !$endDate || empty($endDate) || is_null($endDate) ){
+				update_post_meta( $the_query->post->ID, 'solutions_ad_end_date', date( "U", strtotime('+1 year')) );
+				//update endDate for next check
+				$endDate = get_post_meta( $the_query->post->ID, 'solutions_ad_end_date', true );
+			}
+			
+			if( $endDate < time() ){
+				// Update post
+				$my_post = array();
+				$my_post['ID'] = $the_query->post->ID;
+				$my_post['post_status'] = 'pending';
+				wp_update_post( $my_post );
+			}
+		endwhile;
 	}
 
 

@@ -30,7 +30,11 @@ class Solutions_Ad_Manager_Activator {
 	 * @since    0.1.0
 	 */
 	public static function activate() {
-
+		
+		if ( ! wp_next_scheduled( 'solutions_scheduled_update' ) ) {
+			wp_schedule_event( time(), 'hourly', 'solutions_scheduled_update');
+		}
+		
 	}
 
 }

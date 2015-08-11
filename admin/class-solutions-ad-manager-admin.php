@@ -91,7 +91,7 @@ class Solutions_Ad_Manager_Admin {
 	
 	/**
 	 * Create Custom Meta.
-	 *
+	 * https://github.com/WebDevStudios/Custom-Metaboxes-and-Fields-for-WordPress/wiki/Field-Types
 	 * @since    0.1.0
 	 */
 	 public function define_meta_boxes( $meta_boxes ) {
@@ -104,6 +104,12 @@ class Solutions_Ad_Manager_Admin {
 				'priority' => 'high',
 				'show_names' => true,
 				'fields' => array(
+					array(
+						'name' => 'End Date',
+						'id'   => 'solutions_ad_end_date',
+						'type' => 'text_datetime_timestamp',
+						'default' => date( "U", strtotime('+1 year'))
+					),
 					array(
 						'name' => __( 'Website URL', 'solutions-ad-manager' ),
 						'id' => 'solutions_ad_url',

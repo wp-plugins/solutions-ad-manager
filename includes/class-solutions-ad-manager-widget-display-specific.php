@@ -10,7 +10,7 @@ class Solutions_Ad_Manager_Specific_Widget extends WP_Widget {
 	 */
 	function __construct() {
 		$this->solutions_ad_manager = 'solutions-ad-manager';
-		$this->version = '0.6.4';
+		$this->version = '0.8.0';
 		parent::__construct(
 			'sam_specific_widget', // Base ID
 			__( 'Ad (specific)', 'solutions-ad-manager' ), // Name

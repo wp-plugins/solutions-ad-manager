@@ -31,6 +31,7 @@ class Solutions_Ad_Manager_Deactivator {
 	 */
 	public static function deactivate() {
 		unregister_setting( 'solutions-ad-manager-options', 'solutions-ad-manager-options' );
+		wp_clear_scheduled_hook( 'solutions_scheduled_update' );
 	}
 
 }
